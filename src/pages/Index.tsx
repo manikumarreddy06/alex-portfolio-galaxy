@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { 
   ArrowRight, 
@@ -13,13 +14,18 @@ import {
   Dribbble,
   Mail,
   MapPin,
-  Check
+  Check,
+  Code,
+  Figma,
+  Zap
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
 import BackToTop from "@/components/BackToTop";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import ProjectModal from "@/components/ProjectModal";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 import { Project } from "@/components/ProjectModal";
 
 // Sample projects data
@@ -205,8 +211,10 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [skillsVisible, setSkillsVisible] = useState(false);
   
   const formRef = useRef<HTMLFormElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
   
   // Filter projects based on category
   useEffect(() => {
@@ -218,6 +226,30 @@ const Index = () => {
       );
     }
   }, [activeFilter]);
+
+  // Observe skills section to trigger animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setSkillsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (skillsRef.current) {
+      observer.observe(skillsRef.current);
+    }
+
+    return () => {
+      if (skillsRef.current) {
+        observer.unobserve(skillsRef.current);
+      }
+    };
+  }, []);
 
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
@@ -245,6 +277,7 @@ const Index = () => {
       <Preloader />
       <Navbar />
       <BackToTop />
+      <ScrollProgressBar />
 
       {/* Hero Section */}
       <section
@@ -321,6 +354,33 @@ const Index = () => {
               <p className="text-muted-foreground mb-8">
                 My approach combines user research, strategic thinking, and creative problem-solving to craft experiences that are not only visually stunning but also intuitive and accessible. I believe that good design should be invisible, guiding users naturally without getting in their way.
               </p>
+              
+              {/* Skills Badges */}
+              <div 
+                ref={skillsRef} 
+                className="flex flex-wrap gap-2 mb-8"
+              >
+                {[
+                  { name: "Figma", icon: Figma, delay: 0 },
+                  { name: "Adobe XD", icon: Layers, delay: 0.1 },
+                  { name: "Sketch", icon: Palette, delay: 0.2 },
+                  { name: "Prototyping", icon: Zap, delay: 0.3 },
+                  { name: "HTML/CSS", icon: Code, delay: 0.4 }
+                ].map((skill, index) => (
+                  <div 
+                    key={skill.name}
+                    className={`px-3 py-1 rounded-full bg-white shadow-sm text-sm font-medium text-foreground flex items-center gap-1.5 transition-all duration-500 ${
+                      skillsVisible 
+                        ? "opacity-100 translate-y-0" 
+                        : "opacity-0 translate-y-4"
+                    }`}
+                    style={{ transitionDelay: `${skill.delay}s` }}
+                  >
+                    <skill.icon size={14} className="text-primary" />
+                    {skill.name}
+                  </div>
+                ))}
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
                 <div className="p-4 rounded-lg bg-white shadow-sm text-center">
@@ -552,40 +612,69 @@ const Index = () => {
               </div>
               
               <div className="flex space-x-4">
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={18} />
-                </a>
-                <a
-                  href="https://dribbble.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                  aria-label="Dribbble"
-                >
-                  <Dribbble size={18} />
-                </a>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                  aria-label="Twitter"
-                >
-                  <Twitter size={18} />
-                </a>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        href="https://linkedin.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                        aria-label="LinkedIn"
+                      >
+                        <Linkedin size={18} />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Connect on LinkedIn</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        href="https://dribbble.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                        aria-label="Dribbble"
+                      >
+                        <Dribbble size={18} />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>See designs on Dribbble</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        href="https://twitter.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                        aria-label="Twitter"
+                      >
+                        <Twitter size={18} />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Follow on Twitter</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
             
             <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
               {formSubmitted ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 animate-[bounce_1s_ease-in-out]">
                     <Check size={32} />
                   </div>
                   <h3 className="text-xl font-display font-semibold mb-2">
@@ -645,7 +734,7 @@ const Index = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="button-primary w-full"
+                    className="button-primary w-full group"
                   >
                     {isSubmitting ? (
                       <>
@@ -653,7 +742,12 @@ const Index = () => {
                         Sending...
                       </>
                     ) : (
-                      "Send Message"
+                      <>
+                        Send Message
+                        <span className="inline-block transition-transform group-hover:translate-x-1">
+                          <ArrowRight size={16} className="ml-2" />
+                        </span>
+                      </>
                     )}
                   </button>
                 </form>
@@ -700,4 +794,3 @@ const Index = () => {
 };
 
 export default Index;
-
