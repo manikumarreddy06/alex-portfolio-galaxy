@@ -368,11 +368,11 @@ const Index = () => {
               
               <h3 className="text-xl font-display font-semibold mb-2">UI Design</h3>
               
-              <p className="text-muted-foreground mb-8">
+              <p className="text-muted-foreground">
                 Creating visually stunning, consistent interfaces that align with your brand and delight your users.
               </p>
               
-              <div className="absolute bottom-6 left-6 right-6 overflow-hidden h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300">
+              <div className="mt-4 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300 overflow-hidden">
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
                   <li>Design systems and component libraries</li>
                   <li>Web and mobile app interfaces</li>
@@ -390,11 +390,11 @@ const Index = () => {
               
               <h3 className="text-xl font-display font-semibold mb-2">UX Research</h3>
               
-              <p className="text-muted-foreground mb-8">
+              <p className="text-muted-foreground">
                 Understanding your users through research to inform design decisions and create intuitive experiences.
               </p>
               
-              <div className="absolute bottom-6 left-6 right-6 overflow-hidden h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300">
+              <div className="mt-4 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300 overflow-hidden">
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
                   <li>User interviews and surveys</li>
                   <li>Usability testing and heuristic evaluation</li>
@@ -412,11 +412,11 @@ const Index = () => {
               
               <h3 className="text-xl font-display font-semibold mb-2">Prototyping</h3>
               
-              <p className="text-muted-foreground mb-8">
+              <p className="text-muted-foreground">
                 Creating interactive prototypes to validate ideas, test with users, and communicate design intent.
               </p>
               
-              <div className="absolute bottom-6 left-6 right-6 overflow-hidden h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300">
+              <div className="mt-4 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-300 overflow-hidden">
                 <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
                   <li>Low and high-fidelity prototypes</li>
                   <li>Interactive user flows</li>
@@ -700,3 +700,4 @@ const Index = () => {
 };
 
 export default Index;
+
