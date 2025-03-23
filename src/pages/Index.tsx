@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { 
   ArrowRight, 
@@ -11,7 +10,10 @@ import {
   Loader, 
   Linkedin, 
   Twitter, 
-  Dribbble 
+  Dribbble,
+  Mail,
+  MapPin,
+  Check
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
@@ -698,16 +700,3 @@ const Index = () => {
 };
 
 export default Index;
-
-// Adding missing imports
-function Mail(props: any) {
-  return <lucide-react.Mail {...props} />;
-}
-
-function MapPin(props: any) {
-  return <lucide-react.MapPin {...props} />;
-}
-
-function Check(props: any) {
-  return <lucide-react.Check {...props} />;
-}
